@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>One Year to Start Them All — Callie's First Birthday</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%232a3f22'/><path d='M16 3 C 20 8, 22 14, 16 29 C 10 14, 12 8, 16 3 Z' fill='%23c9a14a'/><line x1='16' y1='5' x2='16' y2='27' stroke='%232a3f22' stroke-width='1.2' opacity='0.55'/><path d='M16 5 C 18 10, 19 16, 16 27' stroke='%23e8c677' stroke-width='0.4' fill='none' opacity='0.4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=IM+Fell+English:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+  :root {
+    --parchment: #f1e5c7;
+    --parchment-2: #e6d5a8;
+    --parchment-shadow: #c9b482;
+    --ink: #2a1f14;
+    --ink-soft: #513a22;
+    --gold: #b8893a;
+    --gold-bright: #d9a94a;
+    --gold-pale: #e8c677;
+    --green-deep: #2a3f22;
+    --green: #3f5a2e;
+    --green-mid: #587b3e;
+    --green-moss: #7a9454;
+    --door-green: #2f6b3a;
+    --door-green-dark: #1e4827;
+    --brick: #a56a3e;
+    --brick-dark: #7a4a2a;
+    --rose: #b8503c;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: pan-y; }
+
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'IM Fell English', 'EB Garamond', Georgia, serif;
+    color: var(--ink);
+    background: #1a2515;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(0,0,0,0.12), transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(0,0,0,0.15), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(184, 137, 58, 0.08), transparent 60%),
+      linear-gradient(180deg, #f4ead0 0%, #ecdcb0 45%, #e0cfa0 100%);
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.12  0 0 0 0 0.07  0 0 0 0.18 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.45'/></svg>");
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 120% 100% at 50% 50%, transparent 55%, rgba(60, 30, 10, 0.25) 90%, rgba(30, 15, 5, 0.5) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .font-display { font-family: 'MedievalSharp', 'IM Fell English', serif; letter-spacing: 0.02em; }
+  .font-body    { font-family: 'IM Fell English', 'EB Garamond', serif; }
+  .font-ui      { font-family: 'EB Garamond', Georgia, serif; }
+
+  #root { position: relative; z-index: 1; }
+
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input, select, textarea { font-family: inherit; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(42,31,20,0.25); border-radius: 4px; }
+
+  @keyframes floatLeaf {
+    0%   { transform: translateY(-5vh) translateX(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(105vh) translateX(40px) rotate(540deg); opacity: 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    document.addEventListener('touchstart', function() {}, { passive: true });
+    const html = window.htm.bind(React.createElement);
+  </script>
+
+  <script>
+    window._sb = window.supabase.createClient(
+      'https://qkgphyngbtqefujfsnny.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrZ3BoeW5nYnRxZWZ1amZzbm55Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MTQyMTYsImV4cCI6MjA5MjE5MDIxNn0.6afONi8akq_l_Fj3vv8fPdEN55kzSuFWrzME6oajzoU'
+    );
+  </script>
+
+  <script>
+    window.__TWEAKS__ = {
+      "eventTitle": "One Year to Start Them All",
+      "subtitle": "A celebration of Callie's first year!",
+      "hostLine": "You're invited by the Reichert's...",
+      "eventDate": "2026-06-06T16:00",
+      "eventDateDisplay": "Saturday, the 6th of June",
+      "eventTimeDisplay": "After 2nd Breakfast, before Dinner, done by Supper...(4:00 – 7:00pm)",
+      "venueName": "Bag-End Lake",
+      "venueAddress": "322 Lago Circle Dr, Santa Fe, TX 77517",
+      "venueNote": "Look for the old beagle, by the covered red boat under the spring trees.",
+      "details": "Come in your finest Shire attire (normal clothes, bare feet for any hobbits). There shall be cake, brisket, and celebration beneath the tree. Little hobbits most welcome — the best gift is no gift, just bring yourselves.",
+      "rsvpBy": "Kindly reply by the 31st of May",
+      "contactLine": "Questions? Send a digital raven to:\nTobias & Riley: (614) 226-7452"
+    };
+  </script>
+
+  <!-- ── ornaments ── -->
+  <script>
+  (function() {
+    const KnotDivider = ({ width = 280, color = "var(--gold)" }) => html`
+      <svg viewBox="0 0 280 40" width=${width} style=${{ display: 'block', margin: '0 auto', maxWidth: '90%' }} aria-hidden="true">
+        <g fill="none" stroke=${color} strokeWidth="1.6" strokeLinecap="round">
+          <path d="M4 20 C 30 20, 40 8, 60 20 C 75 29, 85 20, 100 20" />
+          <path d="M4 20 C 30 20, 40 32, 60 20 C 75 11, 85 20, 100 20" />
+          <path d="M180 20 C 195 20, 205 8, 220 20 C 240 32, 250 20, 276 20" />
+          <path d="M180 20 C 195 20, 205 32, 220 20 C 240 8, 250 20, 276 20" />
+          <g transform="translate(140 20)">
+            <path d="M 0 -14 C 10 -8, 12 4, 0 10 C -12 4, -10 -8, 0 -14 Z" />
+            <path d="M -12 6 C -6 -4, 6 -4, 12 6 C 6 12, -6 12, -12 6 Z" opacity="0.85" />
+            <circle r="2.2" fill=${color} stroke="none" />
+          </g>
+          <circle cx="4" cy="20" r="1.8" fill=${color} stroke="none" />
+          <circle cx="276" cy="20" r="1.8" fill=${color} stroke="none" />
+        </g>
+      </svg>`;
+
+    const CornerFlourish = ({ size = 56, color = "var(--gold)", flip = false }) => html`
+      <svg viewBox="0 0 60 60" width=${size} height=${size}
+        style=${{ transform: flip ? 'scaleX(-1)' : 'none' }} aria-hidden="true">
+        <g fill="none" stroke=${color} strokeWidth="1.4" strokeLinecap="round">
+          <path d="M2 58 C 2 30, 30 2, 58 2" />
+          <path d="M6 58 C 18 40, 30 28, 40 24 C 48 21, 52 24, 50 30 C 48 35, 42 36, 38 32" />
+          <circle cx="38" cy="32" r="2.2" fill=${color} stroke="none" />
+          <path d="M18 58 C 20 48, 28 42, 34 44" />
+          <circle cx="34" cy="44" r="1.6" fill=${color} stroke="none" />
+        </g>
+      </svg>`;
+
+    const HobbitDoor = ({ size = 220 }) => {
+      const brickLines = Array.from({length: 18}).map((_, i) => {
+        const a = (i / 18) * Math.PI * 2;
+        const x1 = 120 + Math.cos(a) * 60, y1 = 120 + Math.sin(a) * 60;
+        const x2 = 120 + Math.cos(a) * 80, y2 = 120 + Math.sin(a) * 80;
+        return html`<line key=${i} x1=${x1} y1=${y1} x2=${x2} y2=${y2} />`;
+      });
+      const plankLines = [-40,-24,-8,8,24,40].map((x, i) => {
+        const h = Math.sqrt(60*60 - x*x);
+        return html`<line key=${i} x1=${120+x} y1=${120-h} x2=${120+x} y2=${120+h} />`;
+      });
+      const flowers = [[45,195,'#d04a3a'],[60,200,'#e8c677'],[180,198,'#b23c4a'],[200,188,'#e3b85a'],[25,185,'#c23c55'],[218,184,'#d9a94a']];
+      return html`
+        <svg viewBox="0 0 240 240" width=${size} height=${size} aria-hidden="true"
+          style=${{ display: 'block', filter: 'drop-shadow(0 8px 14px rgba(30,20,10,0.35))' }}>
+          <defs>
+            <radialGradient id="hill" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stopColor="#7a9454"/>
+              <stop offset="60%" stopColor="#4f7238"/>
+              <stop offset="100%" stopColor="#2f4a22"/>
+            </radialGradient>
+            <radialGradient id="brickGrad" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stopColor="#c58a55"/>
+              <stop offset="100%" stopColor="#7a4a2a"/>
+            </radialGradient>
+            <radialGradient id="doorGrad" cx="30%" cy="35%" r="75%">
+              <stop offset="0%" stopColor="#4a8c55"/>
+              <stop offset="55%" stopColor="#2a6838"/>
+              <stop offset="100%" stopColor="#163d22"/>
+            </radialGradient>
+          </defs>
+          <circle cx="120" cy="120" r="118" fill="url(#hill)" />
+          <circle cx="120" cy="120" r="80" fill="url(#brickGrad)" />
+          <g stroke="#5a3820" strokeWidth="0.7" fill="none" opacity="0.55">
+            ${brickLines}
+            <circle cx="120" cy="120" r="70" />
+          </g>
+          <circle cx="120" cy="120" r="60" fill="url(#doorGrad)" />
+          <g stroke="#14381f" strokeWidth="0.8" opacity="0.7">${plankLines}</g>
+          <circle cx="120" cy="120" r="4" fill="#e8c677" stroke="#8a6322" strokeWidth="0.6" />
+          <circle cx="119" cy="119" r="1.3" fill="#fff3c4" opacity="0.8" />
+          <g fill="#3e5d2a" opacity="0.9">
+            <ellipse cx="40" cy="180" rx="28" ry="10" />
+            <ellipse cx="200" cy="178" rx="30" ry="12" />
+            <ellipse cx="30" cy="100" rx="18" ry="8" transform="rotate(-30 30 100)" />
+            <ellipse cx="210" cy="90" rx="20" ry="8" transform="rotate(25 210 90)" />
+          </g>
+          ${flowers.map(([x,y,c],i) => html`<circle key=${i} cx=${x} cy=${y} r="2.5" fill=${c} />`)}
+        </svg>`;
+    };
+
+    const WaxSeal = ({ size = 72, letter = "C" }) => html`
+      <svg viewBox="0 0 80 80" width=${size} height=${size} aria-hidden="true"
+        style=${{ filter: 'drop-shadow(0 3px 4px rgba(0,0,0,0.3))' }}>
+        <defs>
+          <radialGradient id="wax" cx="35%" cy="35%" r="70%">
+            <stop offset="0%" stopColor="#c4543c"/>
+            <stop offset="70%" stopColor="#8a2a1e"/>
+            <stop offset="100%" stopColor="#4a1208"/>
+          </radialGradient>
+        </defs>
+        <circle cx="40" cy="40" r="34" fill="url(#wax)"/>
+        <g fill="none" stroke="#f2d08a" strokeWidth="0.8" opacity="0.7">
+          <circle cx="40" cy="40" r="28"/>
+          <circle cx="40" cy="40" r="24" strokeDasharray="2 3"/>
+        </g>
+        <text x="40" y="50" textAnchor="middle"
+          fontFamily="MedievalSharp, serif" fontSize="26" fill="#f2d08a">${letter}</text>
+      </svg>`;
+
+    Object.assign(window, { KnotDivider, CornerFlourish, HobbitDoor, WaxSeal });
+  })();
+  </script>
+
+  <!-- ── scenery ── -->
+  <script>
+  (function() {
+    const ShireScene = () => html`
+      <svg viewBox="0 0 400 180" width="100%" preserveAspectRatio="xMidYMid slice"
+        style=${{ display: 'block' }} aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#e8d9a8"/>
+            <stop offset="55%" stopColor="#d9c487"/>
+            <stop offset="100%" stopColor="#b89d5e"/>
+          </linearGradient>
+          <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fff3c4" stopOpacity="0.9"/>
+            <stop offset="60%" stopColor="#f0c76a" stopOpacity="0.4"/>
+            <stop offset="100%" stopColor="#f0c76a" stopOpacity="0"/>
+          </radialGradient>
+          <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#7a9454"/>
+            <stop offset="100%" stopColor="#4a6a32"/>
+          </linearGradient>
+          <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#5a7a3a"/>
+            <stop offset="100%" stopColor="#35502a"/>
+          </linearGradient>
+          <linearGradient id="hillC" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#3e5a28"/>
+            <stop offset="100%" stopColor="#243c18"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="180" fill="url(#sky)"/>
+        <circle cx="310" cy="55" r="60" fill="url(#sun)"/>
+        <circle cx="310" cy="55" r="18" fill="#fff3c4" opacity="0.85"/>
+        <path d="M0 110 C 60 90, 120 100, 180 92 C 240 84, 310 100, 400 90 L 400 180 L 0 180 Z" fill="url(#hillA)" opacity="0.85"/>
+        <path d="M0 130 C 50 108, 110 122, 170 112 C 240 100, 300 124, 400 112 L 400 180 L 0 180 Z" fill="url(#hillB)"/>
+        <path d="M0 150 C 80 122, 170 142, 260 128 C 320 118, 370 138, 400 132 L 400 180 L 0 180 Z" fill="url(#hillC)"/>
+        <g transform="translate(140 98)">
+          <circle r="9" fill="#7a4a2a"/>
+          <circle r="7" fill="#2a6838"/>
+          <circle r="0.8" fill="#e8c677" cx="0.5" cy="0.5"/>
+        </g>
+        <g stroke="#f4ead0" strokeWidth="1.2" fill="none" opacity="0.75">
+          <path d="M158 92 C 160 86, 155 82, 158 76 C 161 70, 156 66, 160 60"/>
+        </g>
+        <g fill="#3a2a18" opacity="0.7">
+          <rect x="10" y="144" width="1.4" height="6"/>
+          <rect x="22" y="143" width="1.4" height="7"/>
+          <rect x="34" y="145" width="1.4" height="5"/>
+          <rect x="366" y="140" width="1.4" height="6"/>
+          <rect x="378" y="142" width="1.4" height="6"/>
+        </g>
+        <g transform="translate(70 118)">
+          <rect x="-1" y="0" width="2" height="10" fill="#3a2414"/>
+          <circle cx="0" cy="-2" r="9" fill="#4a6a32"/>
+          <circle cx="-5" cy="0" r="5" fill="#3e5a28"/>
+          <circle cx="5" cy="0" r="5" fill="#3e5a28"/>
+        </g>
+        <g fill="none" stroke="#513a22" strokeWidth="1" opacity="0.6" strokeLinecap="round">
+          <path d="M220 40 q 3 -4 6 0 q 3 -4 6 0"/>
+          <path d="M240 32 q 2.5 -3 5 0 q 2.5 -3 5 0"/>
+          <path d="M260 44 q 2 -3 4 0 q 2 -3 4 0"/>
+        </g>
+      </svg>`;
+
+    const FallingLeaves = () => {
+      const leaves = [
+        { left: '8%',  delay: '0s',  dur: '18s', size: 14, hue: 30 },
+        { left: '22%', delay: '6s',  dur: '22s', size: 10, hue: 45 },
+        { left: '68%', delay: '3s',  dur: '20s', size: 12, hue: 20 },
+        { left: '86%', delay: '10s', dur: '24s', size: 9,  hue: 35 },
+        { left: '48%', delay: '14s', dur: '26s', size: 11, hue: 50 },
+      ];
+      return html`
+        <div style=${{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 2, overflow: 'hidden' }}>
+          ${leaves.map((l, i) => html`
+            <div key=${i} style=${{
+              position: 'absolute', top: 0, left: l.left,
+              width: l.size, height: l.size,
+              animation: `floatLeaf ${l.dur} linear ${l.delay} infinite`,
+            }}>
+              <svg viewBox="0 0 20 20" width=${l.size} height=${l.size}>
+                <path d="M10 1 C 15 5, 17 12, 10 19 C 3 12, 5 5, 10 1 Z"
+                  fill=${'hsl(' + l.hue + ', 55%, 38%)'} opacity="0.75"/>
+                <path d="M10 3 L 10 18" stroke="#3a2414" strokeWidth="0.5" opacity="0.5"/>
+              </svg>
+            </div>`)}
+        </div>`;
+    };
+
+    Object.assign(window, { ShireScene, FallingLeaves });
+  })();
+  </script>
+
+  <!-- ── countdown ── -->
+  <script>
+  (function() {
+    const { useState, useEffect } = React;
+
+    function useCountdown(targetIso) {
+      const [now, setNow] = useState(() => Date.now());
+      useEffect(() => {
+        const id = setInterval(() => setNow(Date.now()), 1000);
+        return () => clearInterval(id);
+      }, []);
+      const target = new Date(targetIso).getTime();
+      const diff = Math.max(0, target - now);
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      return { d, h, m, s, done: diff === 0 };
+    }
+
+    const Countdown = ({ targetIso }) => {
+      const { d, h, m, s, done } = useCountdown(targetIso);
+      const pad = (n) => String(n).padStart(2, '0');
+      const cellStyle = {
+        flex: 1, textAlign: 'center', padding: '10px 4px 8px',
+        borderRight: '1px solid rgba(184,137,58,0.35)',
+      };
+      const numStyle = {
+        fontFamily: 'MedievalSharp, serif', fontSize: 28, lineHeight: 1,
+        color: 'var(--ink)', fontVariantNumeric: 'tabular-nums', letterSpacing: '0.02em',
+      };
+      const labelStyle = {
+        fontFamily: 'IM Fell English, serif', fontStyle: 'italic', fontSize: 14,
+        letterSpacing: '0.12em', textTransform: 'lowercase', color: 'var(--ink-soft)', marginTop: 4,
+      };
+      if (done) return html`
+        <div style=${{ textAlign:'center', padding:'14px 12px', fontFamily:'MedievalSharp, serif', fontSize: 20, color: 'var(--green-deep)' }}>
+          The Fellowship has gathered!
+        </div>`;
+      const cells = [[pad(d),'days'],[pad(h),'hours'],[pad(m),'minutes'],[pad(s),'seconds']];
+      return html`
+        <div>
+          <div style=${{ display:'flex', background:'linear-gradient(180deg,rgba(255,243,200,0.35),rgba(201,163,74,0.12))', border:'1px solid rgba(184,137,58,0.45)', borderRadius:3, boxShadow:'inset 0 1px 0 rgba(255,255,255,0.35),0 1px 2px rgba(60,40,15,0.15)' }}>
+            ${cells.map(([n,l],i,arr) => html`
+              <div key=${l} style=${{ ...cellStyle, borderRight: i===arr.length-1?'none':cellStyle.borderRight }}>
+                <div style=${numStyle}>${n}</div>
+                <div style=${labelStyle}>${l}</div>
+              </div>`)}
+          </div>
+          <div style=${{ textAlign:'center', marginTop:8, fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:16, color:'var(--ink-soft)' }}>
+            until the Fellowship of Friends
+          </div>
+        </div>`;
+    };
+
+    window.Countdown = Countdown;
+  })();
+  </script>
+
+  <!-- ── rsvp ── -->
+  <script>
+  (function() {
+    const { useState, useEffect, useRef } = React;
+
+    const parchmentField = {
+      width: '100%', padding: '10px 12px',
+      fontFamily: 'IM Fell English, serif', fontSize: 16,
+      color: 'var(--ink)', background: 'rgba(255,248,220,0.55)',
+      border: '1px solid rgba(184,137,58,0.55)', borderRadius: 2,
+      boxShadow: 'inset 0 1px 2px rgba(60,40,15,0.12)', outline: 'none',
+    };
+
+    const goldButton = (variant = 'solid') => ({
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      gap: 8, padding: '12px 20px', fontFamily: 'MedievalSharp, serif',
+      fontSize: 16, letterSpacing: '0.04em', borderRadius: 2,
+      transition: 'transform 0.15s, box-shadow 0.15s, background 0.2s',
+      cursor: 'pointer', userSelect: 'none',
+      ...(variant === 'solid' ? {
+        color: '#fff6d5',
+        background: 'linear-gradient(180deg,#4a7a3a 0%,#2f5224 55%,#1e3818 100%)',
+        border: '1px solid #1e3818',
+        boxShadow: '0 2px 0 rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.18)',
+        textShadow: '0 1px 0 rgba(0,0,0,0.35)',
+      } : {
+        color: 'var(--ink)',
+        background: 'linear-gradient(180deg,rgba(255,243,200,0.7),rgba(201,163,74,0.2))',
+        border: '1px solid rgba(184,137,58,0.7)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.45)',
+      }),
+    });
+
+    const RsvpForm = ({ onAdd }) => {
+      const [name, setName] = useState('');
+      const [wasAdded, setWasAdded] = useState(false);
+      const inputRef = useRef(null);
+      const submit = (e) => {
+        e && e.preventDefault();
+        const n = name.trim();
+        if (!n) { inputRef.current && inputRef.current.focus(); return; }
+        onAdd(n); setName(''); setWasAdded(true);
+        setTimeout(() => setWasAdded(false), 2400);
+      };
+      return html`
+        <form onSubmit=${submit} style=${{ display:'flex', flexDirection:'column', gap:10 }}>
+          <label style=${{ fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:17, color:'var(--ink-soft)', marginBottom:-2 }}>
+            Your name (or names, if a party travels together)
+          </label>
+          <input ref=${inputRef} type="text" value=${name}
+            onChange=${(e) => setName(e.target.value)}
+            placeholder="e.g. Bilbo & Frodo"
+            style=${parchmentField} maxLength="80" />
+          <button type="submit" style=${goldButton('solid')}>
+            <span style=${{ fontSize:14, marginRight:2 }}>✦</span> I'm Coming
+          </button>
+          <div style=${{ minHeight:18, textAlign:'center', fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:13, color: wasAdded ? 'var(--green-deep)' : 'transparent', transition:'color 0.3s' }}>
+            Your name has been added to the guest book.
+          </div>
+        </form>`;
+    };
+
+    const GuestRow = ({ guest, onEdit, onDelete }) => {
+      const [editing, setEditing] = useState(false);
+      const [draft, setDraft] = useState(guest.name);
+      const [status, setStatus] = useState('coming');
+      const inputRef = useRef(null);
+      useEffect(() => { if (editing && inputRef.current) { inputRef.current.focus(); inputRef.current.select(); } }, [editing]);
+      const commit = () => {
+        if (status === 'not-coming') { onDelete(guest.id); setEditing(false); return; }
+        const t = draft.trim(); if (t) onEdit(guest.id, t); setEditing(false);
+      };
+      const cancel = () => { setDraft(guest.name); setStatus('coming'); setEditing(false); };
+      return html`
+        <li style=${{ display:'flex', alignItems: editing?'flex-start':'center', gap:10, padding:'10px 4px 10px 0', borderBottom:'1px dashed rgba(184,137,58,0.35)', animation:'fadeUp 0.4s ease-out both', flexWrap: editing?'wrap':'nowrap' }}>
+          <div style=${{ flex:'0 0 auto', width:22, height:22, borderRadius:'50%', background:'radial-gradient(circle at 35% 35%,#d9a94a,#8a6322 70%,#5a3e12)', boxShadow:'0 1px 1px rgba(0,0,0,0.25),inset 0 1px 1px rgba(255,255,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff6d5', fontFamily:'MedievalSharp, serif', fontSize:13, lineHeight:1, marginTop: editing?6:0 }}>✓</div>
+          ${editing ? html`
+            <div style=${{ display:'flex', flexDirection:'column', gap:6, flex:1, minWidth:0 }}>
+              <input ref=${inputRef} value=${draft}
+                onChange=${(e) => setDraft(e.target.value)}
+                onKeyDown=${(e) => { if(e.key==='Enter') commit(); else if(e.key==='Escape') cancel(); }}
+                style=${{ ...parchmentField, padding:'6px 8px', fontSize:15, width:'100%' }} />
+              <select value=${status} onChange=${(e) => setStatus(e.target.value)}
+                style=${{ ...parchmentField, padding:'6px 8px', fontSize:14, width:'100%', cursor:'pointer' }}>
+                <option value="coming">Coming</option>
+                <option value="not-coming">Not Coming</option>
+              </select>
+            </div>` : html`
+            <div style=${{ flex:1, minWidth:0 }}>
+              <div style=${{ fontFamily:'IM Fell English, serif', fontSize:17, color:'var(--ink)', lineHeight:1.2, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>${guest.name}</div>
+            </div>`}
+          ${!editing && html`
+            <button onClick=${() => { setDraft(guest.name); setStatus('coming'); setEditing(true); }}
+              style=${{ flex:'0 0 auto', fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:13, color:'var(--ink-soft)', padding:'6px 10px', border:'1px solid rgba(184,137,58,0.4)', borderRadius:2, background:'rgba(255,248,220,0.35)' }}
+              aria-label=${'Edit ' + guest.name}>edit</button>`}
+          ${editing && html`
+            <div style=${{ display:'flex', flexDirection:'column', gap:6, flex:'0 0 auto' }}>
+              <button onClick=${commit} style=${{ fontFamily:'MedievalSharp, serif', fontSize:13, color:'#fff6d5', padding:'6px 12px', borderRadius:2, background:'linear-gradient(180deg,#4a7a3a,#2f5224)', border:'1px solid #1e3818' }}>save</button>
+              <button onClick=${cancel} style=${{ fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:12, color:'var(--ink-soft)', padding:'4px 8px', borderRadius:2, background:'transparent', border:'1px solid rgba(184,137,58,0.3)' }}>cancel</button>
+            </div>`}
+        </li>`;
+    };
+
+    const GuestList = ({ guests, onEdit, onDelete }) => {
+      if (!guests.length) return html`
+        <div style=${{ textAlign:'center', padding:'18px 12px', fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:14, color:'var(--ink-soft)', opacity:0.75 }}>
+          No names in the guest book yet — be the first to answer the call.
+        </div>`;
+      return html`
+        <ul style=${{ listStyle:'none', padding:0, margin:0 }}>
+          ${guests.map(g => html`<${GuestRow} key=${g.id} guest=${g} onEdit=${onEdit} onDelete=${onDelete} />`)}
+        </ul>`;
+    };
+
+    Object.assign(window, { RsvpForm, GuestList, parchmentField, goldButton });
+  })();
+  </script>
+
+  <!-- ── tweaks ── -->
+  <script>
+  (function() {
+    const { useState: useStateT, useEffect: useEffectT } = React;
+
+    const TweaksPanel = ({ tweaks, onChange }) => {
+      const [open, setOpen] = useStateT(false);
+      const [active, setActive] = useStateT(false);
+      useEffectT(() => {
+        const onMsg = (e) => {
+          const d = e.data || {};
+          if (d.type === '__activate_edit_mode') setActive(true);
+          if (d.type === '__deactivate_edit_mode') { setActive(false); setOpen(false); }
+        };
+        window.addEventListener('message', onMsg);
+        window.parent && window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', onMsg);
+      }, []);
+      if (!active) return null;
+      const set = (key, value) => {
+        onChange({ ...tweaks, [key]: value });
+        window.parent && window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: value } }, '*');
+      };
+      const fields = [
+        ['eventTitle','Title','text'],['subtitle','Subtitle','text'],['hostLine','Host line','text'],
+        ['eventDate','Target date (for countdown)','datetime-local'],['eventDateDisplay','Date (display)','text'],
+        ['eventTimeDisplay','Time (display)','text'],['venueName','Venue name','text'],
+        ['venueAddress','Address','text'],['venueNote','Venue note','text'],
+        ['details','Details','textarea'],['rsvpBy','RSVP-by line','text'],['contactLine','Contact','text'],
+      ];
+      const pf = window.parchmentField;
+      return html`
+        <${React.Fragment}>
+          <button onClick=${() => setOpen(o => !o)} style=${{ position:'fixed', bottom:16, right:16, zIndex:50, padding:'10px 14px', borderRadius:999, fontFamily:'MedievalSharp, serif', fontSize:14, color:'#fff6d5', background:'linear-gradient(180deg,#4a7a3a,#2f5224)', border:'1px solid #1e3818', boxShadow:'0 3px 10px rgba(0,0,0,0.3)' }}>✎ Tweaks</button>
+          ${open && html`
+            <div style=${{ position:'fixed', bottom:64, right:16, zIndex:50, width:'min(360px,calc(100vw - 32px))', maxHeight:'70vh', overflowY:'auto', background:'linear-gradient(180deg,#f4ead0,#e4d09c)', border:'1px solid rgba(184,137,58,0.7)', borderRadius:4, boxShadow:'0 10px 30px rgba(20,10,0,0.4)', padding:14 }}>
+              <div style=${{ fontFamily:'MedievalSharp, serif', fontSize:18, color:'var(--ink)', borderBottom:'1px solid rgba(184,137,58,0.4)', paddingBottom:6, marginBottom:10 }}>Tweaks</div>
+              <div style=${{ display:'flex', flexDirection:'column', gap:10 }}>
+                ${fields.map(([key, label, type]) => html`
+                  <label key=${key} style=${{ display:'flex', flexDirection:'column', gap:3 }}>
+                    <span style=${{ fontFamily:'IM Fell English, serif', fontStyle:'italic', fontSize:12, color:'var(--ink-soft)', letterSpacing:'0.04em' }}>${label}</span>
+                    ${type === 'textarea'
+                      ? html`<textarea value=${tweaks[key]||''} onChange=${(e)=>set(key,e.target.value)} rows="3" style=${{...pf,fontSize:13,resize:'vertical'}} />`
+                      : html`<input type=${type} value=${tweaks[key]||''} onChange=${(e)=>set(key,e.target.value)} style=${{...pf,fontSize:13,padding:'6px 8px'}} />`}
+                  </label>`)}
+                <button onClick=${() => { if(confirm('Clear all RSVPs from this device?')){ localStorage.removeItem('callie_birthday_rsvps_v1'); location.reload(); } }}
+                  style=${{ marginTop:4, padding:'8px 10px', fontFamily:'IM Fell English, serif', fontSize:13, color:'var(--ink)', background:'rgba(184,80,60,0.15)', border:'1px solid rgba(184,80,60,0.45)', borderRadius:2 }}>Clear all RSVPs (dev)</button>
+              </div>
+            </div>`}
+        <//>`;
+    };
+
+    window.TweaksPanel = TweaksPanel;
+  })();
+  </script>
+
+  <!-- ── app ── -->
+  <script>
+  (function() {
+    const { useState: useStateA, useEffect: useEffectA } = React;
+
+    const SectionHeader = ({ title, kicker }) => html`
+      <div style=${{ textAlign:'center', margin:'4px 0 6px' }}>
+        <div style=${{ fontFamily:'IM Fell English, serif', fontStyle:'italic', letterSpacing:'0.18em', textTransform:'lowercase', color:'var(--gold)', opacity:0.9, fontSize:'18px' }}>${kicker}</div>
+        <div style=${{ fontFamily:'MedievalSharp, serif', color:'var(--ink)', marginTop:2, lineHeight:1.1, fontSize:'24px' }}>${title}</div>
+      </div>`;
+
+    const DetailRow = ({ label, children }) => html`
+      <div style=${{ display:'flex', gap:12, padding:'8px 0', borderBottom:'1px dashed rgba(184,137,58,0.35)' }}>
+        <div style=${{ flex:'0 0 72px', fontFamily:'MedievalSharp, serif', letterSpacing:'0.06em', color:'var(--gold)', paddingTop:2, fontSize:'19px', fontWeight:700 }}>${label}</div>
+        <div style=${{ flex:1, fontFamily:'IM Fell English, serif', lineHeight:1.35, color:'var(--ink)', fontSize:'18px' }}>${children}</div>
+      </div>`;
+
+    const DetailsBlock = ({ tweaks }) => html`
+      <div>
+        <${DetailRow} label="Date">${tweaks.eventDateDisplay}<//>
+        <${DetailRow} label="Time"><span style=${{ whiteSpace:'pre-line' }}>${tweaks.eventTimeDisplay}</span><//>
+        <${DetailRow} label="Where">
+          <div style=${{ fontSize:'18px' }}>${tweaks.venueName}</div>
+          <div style=${{ fontStyle:'italic', color:'var(--ink-soft)', marginTop:1, fontSize:'18px', fontWeight:'600', whiteSpace:'pre-line' }}>${tweaks.venueAddress}</div>
+          ${tweaks.venueNote && html`<div style=${{ fontSize:13.5, color:'var(--ink-soft)', marginTop:4, opacity:0.9 }}>${tweaks.venueNote}</div>`}
+        <//>
+        <${DetailRow} label="Notes"><span style=${{ textWrap:'pretty' }}>${tweaks.details}</span><//>
+      </div>`;
+
+    function App() {
+      const [tweaks, setTweaks] = useStateA(window.__TWEAKS__);
+      const [guests, setGuests] = useStateA([]);
+      const sb = window._sb;
+
+      useEffectA(() => {
+        sb.from('rsvps').select('*').order('created_at', { ascending: true })
+          .then(({ data }) => { if (data) setGuests(data); });
+        const channel = sb.channel('rsvps-live')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvps' }, (payload) => {
+            setGuests(g => g.some(x => x.id === payload.new.id) ? g : [...g, payload.new]);
+          })
+          .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rsvps' }, (payload) => {
+            setGuests(g => g.map(x => x.id === payload.new.id ? payload.new : x));
+          })
+          .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'rsvps' }, (payload) => {
+            setGuests(g => g.filter(x => x.id !== payload.old.id));
+          })
+          .subscribe();
+        return () => channel.unsubscribe();
+      }, []);
+
+      const addGuest = async (name) => {
+        const id = 'r-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+        setGuests(g => [...g, { id, name, created_at: new Date().toISOString() }]);
+        await sb.from('rsvps').insert({ id, name });
+      };
+      const editGuest = async (id, name) => {
+        setGuests(g => g.map(x => x.id === id ? { ...x, name } : x));
+        await sb.from('rsvps').update({ name }).eq('id', id);
+      };
+      const deleteGuest = async (id) => {
+        setGuests(g => g.filter(x => x.id !== id));
+        await sb.from('rsvps').delete().eq('id', id);
+      };
+
+      return html`
+        <div style=${{ maxWidth:460, margin:'0 auto', padding:'0 0 120px', position:'relative' }}>
+          <div style=${{ position:'relative', marginBottom:-4 }}>
+            <${ShireScene} />
+            <div style=${{ position:'absolute', left:0, right:0, bottom:-1, height:18, background:'linear-gradient(180deg,transparent,rgba(42,31,20,0.18))' }} />
+          </div>
+          <div style=${{ background:'linear-gradient(180deg,rgba(255,248,220,0.65),rgba(230,213,168,0.75))', border:'1px solid rgba(184,137,58,0.55)', borderRadius:3, boxShadow:'0 8px 24px rgba(40,25,10,0.25),inset 0 1px 0 rgba(255,255,255,0.45)', position:'relative', zIndex:2, margin:'4px 20px 0px', padding:'24px' }}>
+            <div style=${{ position:'absolute', top:6, left:6 }}><${CornerFlourish} size=${44} /></div>
+            <div style=${{ position:'absolute', top:6, right:6 }}><${CornerFlourish} size=${44} flip=${true} /></div>
+            <div style=${{ position:'absolute', bottom:6, left:6, transform:'scaleY(-1)' }}><${CornerFlourish} size=${44} /></div>
+            <div style=${{ position:'absolute', bottom:6, right:6, transform:'scale(-1,-1)' }}><${CornerFlourish} size=${44} /></div>
+            <div style=${{ display:'flex', justifyContent:'center', marginTop:-115, marginBottom:10, position:'relative', zIndex:3 }}>
+              <${HobbitDoor} size=${170} />
+            </div>
+            <div style=${{ textAlign:'center', fontFamily:'IM Fell English, serif', fontStyle:'italic', letterSpacing:'0.08em', color:'var(--ink-soft)', marginBottom:10, marginTop:6, fontSize:'16px', whiteSpace:'pre-line' }}>
+              ${tweaks.hostLine}
+            </div>
+            <h1 style=${{ fontFamily:'MedievalSharp, serif', textAlign:'center', margin:'6px 0 4px', fontSize:'clamp(28px,8vw,38px)', lineHeight:1.05, color:'var(--ink)', textShadow:'0 1px 0 rgba(255,243,200,0.7)', letterSpacing:'0.01em' }}>
+              ${tweaks.eventTitle}
+            </h1>
+            <div style=${{ textAlign:'center', fontFamily:'IM Fell English, serif', fontStyle:'italic', color:'var(--ink-soft)', padding:'0 6px', marginTop:6, fontSize:'20px' }}>
+              ${tweaks.subtitle}
+            </div>
+            <div style=${{ margin:'18px 0 14px' }} />
+            <${Countdown} targetIso=${tweaks.eventDate} />
+            <div style=${{ margin:'22px 0 14px' }}><${KnotDivider} /></div>
+            <${DetailsBlock} tweaks=${tweaks} />
+            <div style=${{ margin:'22px 0 16px' }}><${KnotDivider} /></div>
+            <${SectionHeader} title="Answer the Call" kicker="~ RSVP ~" />
+            <div style=${{ marginTop:8, marginBottom:18 }}>
+              <${RsvpForm} onAdd=${addGuest} />
+            </div>
+            <${SectionHeader} title="The Fellowship So Far" kicker=${'~ ' + guests.length + ' ' + (guests.length===1?'party':'parties') + ' coming ~'} />
+            <div style=${{ marginTop:6, padding:'2px 4px 4px', borderTop:'1px solid rgba(184,137,58,0.25)', borderBottom:'1px solid rgba(184,137,58,0.25)' }}>
+              <${GuestList} guests=${guests} onEdit=${editGuest} onDelete=${deleteGuest} />
+            </div>
+            <div style=${{ margin:'24px 0 6px' }}><${KnotDivider} /></div>
+            <div style=${{ display:'flex', alignItems:'center', gap:12, marginTop:10 }}>
+              <${WaxSeal} letter="C" size=${56} />
+              <div style=${{ flex:1 }}>
+                <div style=${{ fontFamily:'MedievalSharp, serif', color:'var(--ink)', fontSize:'20px' }}>${tweaks.rsvpBy}</div>
+                <div style=${{ fontFamily:'IM Fell English, serif', fontStyle:'italic', color:'var(--ink-soft)', marginTop:2, fontSize:'16px', whiteSpace:'pre-line' }}>${tweaks.contactLine}</div>
+              </div>
+            </div>
+          </div>
+          <div style=${{ textAlign:'center', fontFamily:'MedievalSharp, serif', fontSize:14, color:'var(--ink-soft)', marginTop:16, opacity:0.75 }}>
+            ✦  May your road go ever on  ✦
+          </div>
+          <${FallingLeaves} />
+          <${TweaksPanel} tweaks=${tweaks} onChange=${setTweaks} />
+        </div>`;
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+  })();
+  </script>
+</body>
+</html>
